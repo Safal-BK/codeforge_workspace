@@ -1,0 +1,8 @@
+<section *ngIf="showmodal" class="flex bg-slate-900 absolute top-0 left-0 h-screen w-full z-50 bg-opacity-70" (click)="this.onClose.emit()">
+    <svg (click)="this.onClose.emit()" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="cursor-pointer w-10 h-10 absolute top-20 right-0 text-white">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+      </svg>
+      <div class="m-auto p-6 w-[90%] md:w-[95%] bg-white rounded-lg overflow-y-auto h-[800px]" (click)="$event.stopPropagation()">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero praesentium ipsa tempora delectus, enim dignissimos sapiente id adipisci nemo eligendi ab labore voluptatibus eos neque earum commodi voluptates corporis explicabo.
+    </div> 
+</section>

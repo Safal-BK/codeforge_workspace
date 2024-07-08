@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<style>
+    .form-group {
+        padding-bottom: 10px;
+    }
+</style>
+<style>
+    #progress-container {
+        position: relative;
+        width: 100px;
+        height: 100px;
+    }
+
+    #progress-bar {
+        position: absolute;
+        top: 30%;
+        left: 45%;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 4px solid #ccc;
+        border-top: 4px solid #3498db;
+        animation: spin 1s linear infinite;
+        display: none;
+        /* Initially hidden */
+        z-index: 1;
+
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+
+<style>
+    .bktoast {
+        position: fixed;
+        top: 75px;
+        right: 0px;
+        height: 50px;
+        width: 300px;
+        margin-right: 5px;
+        z-index: 9999999;
+    }
+
+    .bktoast-success {
+        background-color: rgba(40, 225, 103, 0.6);
+    }
+
+    .bktoast-failed {
+        background-color: rgba(238, 91, 15, 0.6);
+    }
+
+    .bktoast-message {
+        color: #fff;
+        padding: 10px;
+    }
+</style>
+<div class="content-page">
+
+    <div class="content">
+
+        <!-- Start Content-->
+
+        <div class="container-fluid">
+
+
+            <div class="row d-flex justify-content-center">
+
+                <div class="col-md-4">
+
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div id="progress-bar"></div>
+
+                            <!-- <form id="create_quiz" autocomplete="on" action="" method="post"
+                          onsubmit="return validateForm()"> -->
+
+                            <div class="form-group">
+
+                                <input type="text" class="form-control" id="jd_id" name="jd_id" placeholder="JD id">
+
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="title" name="title" placeholder="Title">
+
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                            </div>
+
+                            <button class="btn btn-primary float-right" onclick="createquiz()">Create Session</button>
+                        </div> <!-- end card-body -->
+
+                    </div> <!-- end card-->
+
+                </div> <!-- end col -->
+
+            </div>
+
+            <!-- end row -->
+
+        </div> <!-- container -->
+
+
+
+
+    </div>
+</div>
+
+
+<script>
+    function createquiz() {
+        if (validateForm()) {
+
+
+        } else {
+            return 0;
+        }
+        var progressBar = document.getElementById('progress-bar');
+
+        progressBar.style.display = 'block';
+
+        // Simulate some asynchronous task (e.g., AJAX call)
+        // setTimeout(function () {
+        //   // Hide the progress bar after the task is complete
+        //   progressBar.style.display = 'none';
+        // }, 3000); // Change the duration as needed
+        // alert("dasdasdf");
+        var current_user = "{{current_user}}";
+
+        var save_payload = {
+            SECRET_KEY: "1234",
+            user: current_user,
+            candidates:[{
+                jd_id: document.getElementById("jd_id").value,
+            title: document.getElementById("title").value,
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value
+            }]
+
+        };
+        // alert(JSON.stringify(save_payload));
+        fetch('http://{{myip}}:8070/create_new_editor', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify(save_payload)
+        })
+            .then(function (response) {
+
+                return response.json();
+            })
+            .then(function (data) {
+                // Process the response data
+                console.log("sucess");
+                createToast("Session Created !!!")
+                progressBar.style.display = 'none';
+                targetURL = '/session_form';
+                window.location.href = targetURL;
+                console.log(data);
+
+                // Display the output or handle errors
+            })
+            .catch(function (error) {
+                progressBar.style.display = 'none';
+                console.error('Error:', error);
+                createToast("Failed  !!!")
+
+            });
+    }
+
+</script>
+
+<script>
+    // Function to create and show the toast
+    function createToast(message) {
+
+        var toast = document.createElement('div');
+        toast.className = 'bktoast bktoast-success';
+        toast.style.display = 'block';
+
+        var toastMessage = document.createElement('div');
+        toastMessage.className = 'bktoast-message';
+        toastMessage.textContent = message;
+
+        toast.appendChild(toastMessage);
+        document.body.appendChild(toast);
+
+        setTimeout(function () {
+            destroyToast(toast);
+        }, 2000);
+    }
+
+    // Function to destroy the toast
+    function destroyToast(toast) {
+        toast.parentNode.removeChild(toast);
+    }
+
+    // // Call the createToast function after the page is loaded
+    // window.onload = function () {
+    //     createToast('URL Copied !!!');
+    // };
+</script>
+<script>
+
+    function validateForm() {
+        var jdId = document.getElementById("jd_id").value;
+        var title = document.getElementById("title").value;
+        var name = document.getElementById("name").value;
+        var email = document.getElementById("email").value;
+
+        // Basic validation: Check if fields are not empty
+        if (jdId === "" || title === "" || name === "" || email === "") {
+            alert("All fields must be filled out");
+            return false; // Prevent form submission
+        }
+        if(!validateEmail()){
+            return false;
+        }
+         return true; // Allow form submission
+    }
+</script>
+<script>
+    function validateEmail() {
+        // Get the value of the email input
+        var emailInput = document.getElementById('email').value;
+
+        // Regular expression for a simple email validation
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        // Check if the email is in a valid format
+        if (emailRegex.test(emailInput)) {
+            // alert('Email is valid!');
+            return true;
+            // You can proceed with further actions or form submission here
+        } else {
+            alert('Invalid email format. Please enter a valid email address.');
+            return false;
+        }
+    }
+</script>
+
+
+{% endblock %}

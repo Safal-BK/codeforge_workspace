@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@500&family=REM:wght@200&display=swap');
+
+  
+  .main {
+    display: flex;
+    justify-content: space-between;
+    background-color: #f1f1f1;
+    padding: 10px;
+    width: 100%;
+    margin-top: 34px;
+  }
+  
+  .column {
+    flex:1;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+  }
+  
+  .column_left {
+    flex: .5;
+
+width: 40%;
+  }
+  .navbar {
+    background-color: #333;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .navbar a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 5px;
+  }
+  .navbar p {
+    color: #fff;
+    margin-left: 15px;
+  }
+  
+  /* Add the CSS for the "run-button" class */
+  .run-button {
+    font-family: 'Mulish', sans-serif;
+    font-family: 'REM', sans-serif;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+padding: 7px 20px;
+
+
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+  
+  }
+  
+  .content {
+    padding: 10px;
+  }
+  .editor_field{
+    height: 500px;
+    margin-left: -10px;
+    margin-right: -10px;
+
+  }
+
+  .languages{
+    font-family: 'Mulish', sans-serif;
+    font-family: 'REM', sans-serif;
+    /* border-top-style: 1px solid white;
+    border-right-style: 1px solid white;
+    border-bottom-style: none;
+    border-left-style: 1px solid white; */
+    border:1px solid #9ba5b7;
+    border-bottom-style: none;
+
+    background-color: #333;
+    color: white;
+    border-radius: 4px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+
+  }
+
+.navbar_right {
+    background-color: #333;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    padding-left: 11px;
+    padding-right: 11px;
+
+  }
+  
+  .navbar_right a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 5px;
+  }
+  .navbar_right p {
+    color: #fff;
+    margin-left: 15px;
+  }
+
+  
+
+  .custom-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f1f1f1;
+    border: 1px solid #333;
+    border-radius: 4px;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  /* Add hover effect for the button */
+  .custom-button:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .note_area{
+    width:100%; 
+    height: 80vh;
+border: none;
+outline: none;
+resize: none;
+border-bottom: 5px solid rgb(230,236,240);font-size: 18px;
+font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  
+  .output{
+    background-color: #404752;
+    min-height: 100px;
+    padding: 8px;
+
+  
+  }
+  .more{
+    float: right;
+    margin-right: 10px;
+    margin-top: 4px;
+    height: 35px;
+    width: 100px;
+    background-color: #f8f9fa;
+    border-style: none;
+    border-radius: 5px;
+    font-family: 'Mulish', sans-serif;
+    font-family: 'REM', sans-serif;
+    padding: 5px;
+  }
+  .ouput_headline {
+    margin: 0px;
+    border-bottom: 4px solid white;
+    display: inline-block;
+    color: white;
+    margin-left: 5px;
+}
+
+.output_result{
+  color: #f8f9fa;
+}
+.save-button {
+  font-family: 'Mulish', sans-serif;
+  font-family: 'REM', sans-serif;
+  
+padding: 7px 20px;
+
+
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-right: 5px;
+
+}
+
+
+.assign{
+  background-color: rgba(195, 7, 228, 0.696);
+  color:  rgb(241, 210, 246);
+  border-style: none; 
+}
+.assign:hover{
+background-color: rgb(171, 0, 201);
+  color: white;
+}

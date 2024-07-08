@@ -1,0 +1,21 @@
+<div class="pt-32 px-4 md:px-20 mx-auto">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-4">
+        <h3 class="text-lg md:text-xl font-bold mb-2 md:mb-0">Users</h3>
+        <button (click)="openModal()" class="text-emerald-900 shadow-sm shadow-sky-100/50 ring-1 ring-emerald-100 hover:bg-emerald-200/60 hover:shadow-sky-100/50 bg-emerald-100/80 inline-flex items-center rounded-full gap-2.5 justify-center px-7 py-3 text-md font-semibold leading-none outline-offset-2 transition-all duration-200 ease-in-out active:transition-none">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20" strokeWidth={1.5}
+                stroke="currentColor" width="16" height="16" className="size-3">
+                <path strokeLinecap="round" strokeLinejoin="round"
+                    d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+            </svg>
+            Add User
+        </button>
+    </div>
+    <div class="overflow-x-auto">
+        <div class="table-responsive">
+            <table datatable [dtOptions]="dtOptions" class="w-full border-4" style="width: 100% !important;">
+            </table>
+        </div>
+    </div>
+</div>
+<app-add-user-modal [showModal]="showModal" (close)="closeModal()"></app-add-user-modal>
+

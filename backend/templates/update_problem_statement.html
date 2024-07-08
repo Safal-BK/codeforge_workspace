@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="content-page">
+    <div class="content">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+
+                    <h5><i class="bi bi-plus-square-fill"></i> Add New Problem Statement</h5><hr>
+                
+                    <nav class="my-3">
+                
+                        <ol class="breadcrumb">
+                
+                            <li class="breadcrumb-item"><a href="/allproblems">problems</a></li>
+                
+                            <li class="breadcrumb-item active">Add New Problem Statement</li>
+                
+                        </ol>
+                
+                    </nav>
+                
+                    <div class="col-md-8">
+                    <!-- <form action="add-problem.php" method="POST">
+                      <label for="problemStatement">Problem Statement:</label><br>
+                      <textarea name="problemStatement" id="problemStatement" rows="4" cols="50" required></textarea><br>
+                      <button type="submit">Add Problem Statement</button>
+                    </form> -->
+                        <form action="/save-problem-statement/{{id}}" method="POST" autocomplete="off">
+                
+                            <div class="row mb-3">
+                
+                                <div class="col-md-12">
+                
+                                    <label for="problem" class="form-label">Problem Statement</label> 
+                       
+                                    <textarea name="problemStatement" id="problemStatement" style="resize: none; height: 150px;" class="form-control" placeholder="Enter Problem Statement" required>{{problem[1]}}</textarea>
+                
+                                </div>
+                
+                            </div>
+                
+                            <div class="mb-3">
+                
+                                <button type="submit" class="btn btn-dark">Save</button>
+                
+                            </div>
+                
+                        </form>
+                
+                    </div>
+                
+                    <!--Row end-->
+                
+                  </div>
+             </div>
+        </div>
+
+</div>
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <script>
+                    document.write(new Date().getFullYear())
+                </script> &copy; Bolgatty
+            </div>
+            <div class="col-md-6">
+                <div class="text-md-end footer-links d-none d-sm-block">
+                    <a href="javascript:void(0);">About Us</a>
+                    <a href="javascript:void(0);">Help</a>
+                    <a href="javascript:void(0);">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+{% endblock %}

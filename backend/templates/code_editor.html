@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>CodeForge</title>
+  <!-- <link rel="stylesheet" href="editor.css"> -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link href="{{url_for('static', filename='editor.css')}}" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="column column_left">
+      <nav class="navbar_right">
+        <!-- <button class="notes-button">Notes</button> -->
+
+        <span id="notes_button" class="custom-button">Notes</span>
+        <button id="shrebutton" type="button" class="custom-button" onclick="copysharelink()">Share URL</button>
+        <input id="sessionnumber" type="text" placeholder="session id" hidden>
+        <!-- <button onclick="myFunction()">ok</button> -->
+        <!-- <span id="output_button" class="custom-button">Output</span> -->
+      </nav>
+      <div class="content">
+        <div id="noteactive">
+          <textarea id="problemStatement" class="note_area"
+            placeholder="You can use this area to give a problem / add notes, it is a collaborative environment"></textarea>
+
+        </div>
+        <div id="outputactive">
+
+        </div>
+        <!-- Content for the second column -->
+
+      </div>
+    </div>
+    <div class="column">
+      <nav class="navbar">
+        <button id="saveButton" onclick="savestate()" class="save-button assign"><i
+            class="bi bi-floppy"></i>Save</button>
+
+        <!-- Navbar content for the first column -->
+        <p style="font-weight: bold;color: #ffffff; line-height: 1.5 rem;" id="filename">temp.py</p>
+        <!-- Replace the anchor tag with p element -->
+        <select class="languages" name="languages" id="option_language">
+          <option value="python" selected>python</option>
+          <option value="php">php </option>
+          <option value="java">java</option>
+          <option value="cpp">c++</option>
+          <option value="c">c</option>
+
+        </select>
+
+        <button id="runButton" class="run-button"><i class="bi bi-play"></i>Run</button>
+      </nav>
+
+
+      <div class="content">
+        <!-- Content for the first column -->
+        <div class="editor_field" id="editor"></div>
+      </div>
+      <div id="ouput_container" class="output">
+
+        <button id="more_button" class="more">console <i id="more_button_icon" class="bi bi-chevron-up"> </i></button>
+        <p class="ouput_headline">Output</p>
+        <p class="output_result" id="output"></p>
+
+      </div>
+    </div>
+
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor/min/vs/loader.js"></script>
+  <script>
+    let editor;
+    let connection;
+    var isUpdatingFromServer = false;
+    var previousContent = '';
+    var selectElement = document.getElementById("option_language");
+
+  </script>
+
+  <script>
+
+    require.config({
+      paths: {
+        'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor/min/vs'
+      }
+    });
+    var htmlEncodedString = `{{code}}`;
+
+    // Create a temporary element
+    var tempElement = document.createElement('div');
+
+    // Set the HTML-encoded string as the innerHTML
+    tempElement.innerHTML = htmlEncodedString;
+
+    // Access the decoded string
+    var decodedString = tempElement.textContent || tempElement.innerText;
+    require(['vs/editor/editor.main'], function () {
+      editor = monaco.editor.create(document.getElementById('editor'), {
+        value: decodedString,
+        language: undefined, // Enable support for all programming languages
+        theme: 'vs-dark', // Set the editor theme (e.g., vs, vs-dark, hc-black)
+        automaticLayout: true, // Automatically resize the editor when the window size changes
+        readOnly: {{readonly}}
+      });
+
+
+      setInterval(function() {sendMessage()}, 2000);
+
+
+    });
+    var notes_textarea = document.getElementById('problemStatement');
+    notes_textarea.value = `{{notes}}`
+
+    notes_textarea.addEventListener("change", function (event) {
+      sendMessage();
+      console.log("changed")
+
+    });
+  </script>
+
+
+  <script>
+    document.getElementById("sessionnumber").value = "{{session_id}}";
+
+    // Declare the connection variable outside of any function
+
+    function myFunction() {
+      const hostname = '{{web_socket_ip}}';
+      const port = 8765;
+
+      // const sessionId = document.getElementById("sessionnumber").value;
+      const sessionId = "{{session_id}}";
+
+      connection = new WebSocket(`ws://${hostname}:${port}/?sessionId=${sessionId}`);
+
+      connection.addEventListener('open', (event) => {
+        console.log('WebSocket connection opened:', event);
+      });
+
+      connection.addEventListener('message', (event) => {
+        // const messagesList = document.getElementById('messages');
+        // const li = document.createElement('li');
+        // li.textContent = event.data;
+        // messagesList.appendChild(li);
+        try {
+          if (!isUpdatingFromServer) {
+            isUpdatingFromServer = true;
+            parsed_data = JSON.parse(event.data);
+            console.log(parsed_data);
+            document.getElementById("option_language").value = parsed_data.language;
+            document.getElementById("output").innerText = parsed_data.output;
+            document.getElementById("problemStatement").value = parsed_data.notes;
+            if (editor.getValue() !== parsed_data.code) {
+              editor.setValue(parsed_data.code);
+
+              // console.log(event.data)
+            }
+
+            isUpdatingFromServer = false;
+
+          }
+        }
+        catch (err) {
+          console.log("error in onchange")
+        }
+      });
+
+      connection.addEventListener('close', (event) => {
+        console.log('WebSocket connection closed:', event);
+      });
+    }
+
+    function sendMessage() {
+      if (connection.readyState === WebSocket.OPEN) {
+
+        var payload = {
+          session: "{{session_id}}",
+          code: editor.getValue(),
+          language: selectElement.value,
+          notes: document.getElementById("problemStatement").value,
+          output: document.getElementById("output").innerText
+        };
+
+        // console.log(editor.getValue());
+        console.log("--from on message");
+        console.log(document.getElementById("output").innerText);
+
+        connection.send(JSON.stringify(payload));
+      } else {
+        console.log('WebSocket connection is not open.');
+      }
+    }
+
+  </script>
+
+  <script>
+    document.getElementById("noteactive").style.display = "block";
+    document.getElementById("outputactive").style.display = "none";
+
+    const more_button = document.getElementById("more_button");
+
+    more_button.addEventListener('click', moreclick);
+
+    function moreclick(event) {
+      const myElement = document.getElementById("more_button_icon");
+
+      // Check if the element has the class "myClass"
+      const hasMyClass = myElement.classList.contains("bi-chevron-up");
+
+      // If it has the class, remove it, otherwise add it
+      if (hasMyClass) {
+        document.getElementById("editor").style.height = "250px";
+        document.getElementById("ouput_container").style.height = "350px";
+        myElement.classList.remove("bi-chevron-up");
+        myElement.classList.add("bi-chevron-down");
+      } else {
+        document.getElementById("editor").style.height = "500px";
+        document.getElementById("ouput_container").style.height = "100px";
+        myElement.classList.add("bi-chevron-up");
+        myElement.classList.remove("bi-chevron-down");
+      }
+      // const more_icon = document.getElementById("more_button_icon");
+
+      // more_icon.classList.remove("bi bi-chevron-up");
+      // more_icon.classList.add("bi bi-chevron-down");
+
+
+
+    };
+    const notes_button = document.getElementById("notes_button");
+
+    notes_button.addEventListener('click', notesclick);
+
+    function notesclick(event) {
+
+      document.getElementById("noteactive").style.display = "block";
+      document.getElementById("outputactive").style.display = "none";
+
+
+
+    };
+    // const output_button = document.getElementById("output_button");
+
+    // output_button.addEventListener('click', outputclick);
+
+    // function outputclick(event) {
+
+    //   document.getElementById("outputactive").style.display = "block";
+    //   document.getElementById("noteactive").style.display = "none";
+
+
+
+    // };
+  </script>
+
+  <script>
+    selectElement.value = "python";
+    document.getElementById('option_language').addEventListener('change', function (event) {
+
+      // Get a reference to the paragraph element to display the selected option
+      const output_text = document.getElementById("filename");
+
+      // Get the selected option
+      const selectedOption = selectElement.value;
+
+      // connection.send(JSON.stringify(data));
+
+      function getLanguageTempFile(language) {
+        let tempFile;
+
+        switch (language.toLowerCase()) {
+          case "python":
+            tempFile = "temp.py";
+            break;
+          case "java":
+            tempFile = "Temp.java";
+            break;
+          case "c":
+            tempFile = "temp.c";
+            break;
+          case "cpp":
+            tempFile = "temp.cpp";
+            break;
+          case "php":
+            tempFile = "temp.php";
+            break;
+          default:
+            tempFile = "temp.txt"; // Default file extension
+        }
+
+        return tempFile;
+      }
+
+      // Test cases
+
+
+      // Display the selected option
+      output_text.textContent = getLanguageTempFile(selectedOption);
+      sendMessage();
+    });
+  </script>
+  <script>
+    document.getElementById('runButton').addEventListener('click', function () {
+
+      // after click run icon changed to collapse mode and change height
+      document.getElementById("editor").style.height = "250px";
+      document.getElementById("ouput_container").style.height = "350px";
+      const myElement = document.getElementById("more_button_icon");
+      myElement.classList.remove("bi-chevron-up");
+      myElement.classList.add("bi-chevron-down");
+
+      document.getElementById("editor").style.height = "250px";
+      document.getElementById("ouput_container").style.height = "350px";
+
+      document.getElementById("output").innerText = "Processing....";
+      var code = editor.getValue();
+      var language = document.getElementById("option_language").value;
+      // Replace with the desired programming language
+      // var sessionId =  document.getElementById("sessionnumber").value;
+      // var sessionId =  "{{session_id}}";
+      // Prepare the payload with the code and language
+      var compiler_payload = {
+        session: document.getElementById("sessionnumber").value,
+        code: code,
+        language: language
+      };
+
+
+      // var payload = {
+      //       language: "python",
+      //       code: "print('hello world')"
+      //         };
+      // Send a POST request to the API endpoint
+      // fetch('http://20.204.25.49:8070/compile', {
+      // fetch('http://127.0.0.1:8070/compile', {
+
+      fetch('http://{{uc_ip}}:8071/compile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(compiler_payload)
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          // Process the response data
+          console.log(data["output"]);
+          document.getElementById("output").innerText = data["output"];
+          sendMessage();
+
+          // Display the output or handle errors
+        })
+        .catch(function (error) {
+          console.error('Error:', error);
+        });
+    });
+
+    myFunction();
+    document.addEventListener("DOMContentLoaded", () => {
+      sendMessage();
+
+    });
+  </script>
+  <script>
+    function savestate() {
+      var save_payload = {
+        session: document.getElementById("sessionnumber").value,
+        code: editor.getValue(),
+        notes: notes_textarea.value
+      };
+      var current_sessionid = document.getElementById("sessionnumber").value;
+      fetch('http://{{myip}}:8070/savestate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(save_payload)
+      })
+        .then(function (response) {
+
+          return response.json();
+        })
+        .then(function (data) {
+          // Process the response data
+          console.log("sucess")
+          // Display the output or handle errors
+        })
+        .catch(function (error) {
+          console.error('Error:', error);
+        });
+    }
+
+  </script>
+  <script>
+
+    function copyToClipboard(url) {
+      const textToCopy = url; // Replace this with the text you want to copy
+
+      if (navigator.clipboard) {
+        // Using the Clipboard API
+        navigator.clipboard.writeText(textToCopy)
+          .then(() => {
+            console.log('Text successfully copied to clipboard');
+            createToast('URL Copied !!!');
+          })
+          .catch(err => {
+            console.error('Unable to copy text to clipboard', err);
+          });
+      } else {
+        // Fallback for browsers that do not support the Clipboard API
+        console.warn('Clipboard API not supported, falling back to document.execCommand');
+        const textArea = document.createElement('textarea');
+        textArea.value = textToCopy;
+        document.body.appendChild(textArea);
+        textArea.select();
+
+        try {
+          document.execCommand('copy');
+          console.log('Text successfully copied to clipboard');
+          createToast('URL Copied !!!');
+        } catch (err) {
+          console.error('Unable to copy text to clipboard', err);
+        } finally {
+          document.body.removeChild(textArea);
+        }
+      }
+    }
+  </script>
+  <script>
+        function copysharelink() {
+          shareurl = "http://{{myip}}:8070/skilleditor/"+document.getElementById("sessionnumber").value;
+          document.getElementById("shrebutton").textContent ="Copied!!";
+      // alert(shareurl);
+      copyToClipboard(shareurl);
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<style>
+  #notification {
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 15px;
+    width: 200px;
+    height: 100px;
+  }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
+<script>      var btn = document.getElementById('copybutton');
+  var clipboard = new ClipboardJS(btn);</script>
+
+<div class="content-page">
+  <div class="content">
+    <div class="container-fluid mt-5">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+
+            <div class="d-flex justify-content-between">
+
+              <h5><i class="bi bi-list-check"></i> List of Available Sessions</h5>
+
+
+              <!-- Anchor tag acting as a submit button -->
+              <!-- <a href="#" onclick="submitForm();">Submit</a> -->
+              <div>
+                <a href="/session_form" target="_blank" class="btn btn-primary"><i class="bi bi-plus-circle"></i> New Session</a>
+
+                <a href="/new-session" target="_blank" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Random Session</a>
+
+              </div>
+
+            </div>
+
+
+
+
+            <div class="col-md-12 table-responsive mt-3">
+
+              <table  id="example" class="table table-bordered">
+
+                <thead>
+
+                  <tr>
+                    <th>JD ID</th>
+                    <th>Title</th>
+
+                    <th>Name</th>
+                    <th>Email</th>
+                
+                    <th>Action</th>
+    <th>processedDate</th>
+
+
+                  </tr>
+
+                </thead>
+
+                <tbody>
+
+                  {% if current_sessions %}
+                  {% for sesion in current_sessions %}
+                  {% if sesion %}
+                  <tr>
+                    {% if sesion[6]%}
+                    <td>{{ sesion[6][:8]}}</td>
+                    {% else %}
+                    <td>Random Session</td>
+                    {% endif %}
+
+                    {% if sesion[3] %}
+                    <td>{{ sesion[3] }}</td>
+                    {% else %}
+                    <td>Random Session</td>
+                    {% endif %}
+                    {% if sesion[4] %}
+                    <td>{{ sesion[4] }}</td>
+                    {% else %}
+                    <td>Random Session</td>
+                    {% endif %}
+                    {% if sesion[5] %}
+                    <td>{{ sesion[5] }}</td>
+                    {% else %}
+                    <td>Random Session</td>
+
+                    {% endif %}
+            
+                  
+            
+
+                    <td>
+
+                      <button class="btn btn-primary btn-sm" id="copybutton" data-clipboard-text="http://{{ip}}:8070/skilleditor/{{sesion[0]}}"
+                        onclick="copyToClipboard('http://{{myip}}:8070/skilleditor/{{sesion[0]}}')">
+                        <i class="bi bi-clipboard"></i>
+                      </button>
+
+                      <a href="/skilleditor/{{sesion[0]}}" target="_blank" class="btn btn-primary btn-sm"><i
+                          class="bi bi-box-arrow-in-up-right"></i></a>
+                      <a href="/delete-session/{{sesion[0]}}" class="btn btn-danger btn-sm"><i
+                          class="bi bi-trash3"></i></a>
+                    </td>
+
+                    {% if sesion[8] %}
+                    <td>{{ sesion[8] }}</td>
+                    {% else %}
+                    <td>Random Session</td>
+
+                    {% endif %}
+
+                  </tr>
+                  {% endif %}
+                  {% endfor %}
+                  {% endif %}
+
+                </tbody>
+              </table>
+
+            </div>
+
+            <!--Row end-->
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6">
+          <script>
+            document.write(new Date().getFullYear())
+          </script> &copy; Bolgatty
+        </div>
+        <div class="col-md-6">
+          <div class="text-md-end footer-links d-none d-sm-block">
+            <a href="javascript:void(0);">About Us</a>
+            <a href="javascript:void(0);">Help</a>
+            <a href="javascript:void(0);">Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+<script>
+  
+  function copyToClipboard(url) {
+    const textToCopy = url; // Replace this with the text you want to copy
+    createToast('URL Copied !!!');
+    if (navigator.clipboard) {
+      // Using the Clipboard API
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+          console.log('Text successfully copied to clipboard');
+          createToast('URL Copied !!!');
+        })
+        .catch(err => {
+          console.error('Unable to copy text to clipboard', err);
+        });
+    } else {
+      // Fallback for browsers that do not support the Clipboard API
+      console.warn('Clipboard API not supported, falling back to document.execCommand');
+      const textArea = document.createElement('textarea');
+      textArea.value = textToCopy;
+      document.body.appendChild(textArea);
+      textArea.select();
+
+      try {
+        document.execCommand('copy');
+        console.log('Text successfully copied to clipboard');
+        createToast('URL Copied !!!');
+      } catch (err) {
+        console.error('Unable to copy text to clipboard', err);
+      } finally {
+        document.body.removeChild(textArea);
+      }
+    }
+  }
+</script>
+
+<!-- <div id="toast-container" class="toast-top-right">
+  <div class="toast toast-success" aria-live="polite" style="display: block;">
+    <div class="toast-message">URL Copied !!!</div>
+  </div>
+</div> -->
+
+<script>
+  // Function to create and show the toast
+  function createToast(message) {
+      var toastContainer = document.createElement('div');
+      toastContainer.id = 'toast-container';
+      toastContainer.className = 'toast-top-right';
+
+      var toast = document.createElement('div');
+      toast.className = 'toast toast-success';
+      toast.setAttribute('aria-live', 'polite');
+      toast.style.display = 'block';
+
+      var toastMessage = document.createElement('div');
+      toastMessage.className = 'toast-message';
+      toastMessage.textContent = message;
+
+      toast.appendChild(toastMessage);
+      toastContainer.appendChild(toast);
+      document.body.appendChild(toastContainer);
+
+      setTimeout(function () {
+          destroyToast(toastContainer);
+      }, 2000);
+  }
+
+  // Function to destroy the toast
+  function destroyToast(toastContainer) {
+      toastContainer.parentNode.removeChild(toastContainer);
+  }
+
+  // // Call the createToast function after the page is loaded
+  // window.onload = function () {
+  //     createToast('URL Copied !!!');
+  // };
+</script>
+<script>
+  $('#example').DataTable({
+    
+    "order": [
+        [5, "desc"]
+    ]
+ 
+  });
+  </script>
+{% endblock %}

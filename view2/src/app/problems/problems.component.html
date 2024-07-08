@@ -1,0 +1,20 @@
+<div class="pt-32 px-4 md:px-20 mx-auto">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-4">
+        <h3 class="text-lg md:text-xl font-bold mb-2 md:mb-0">List of Problems</h3>
+        <a
+            class="text-slate-900 shadow-sm shadow-sky-100/50 ring-1 ring-slate-100 hover:bg-slate-200/60
+             hover:shadow-sky-100/50 bg-slate-100/80 inline-flex items-center rounded-full gap-2.5 justify-center px-7
+              py-3 text-md font-semibold leading-none outline-offset-2 transition-all duration-200 ease-in-out active:transition-none"
+              (click)="openModal()">
+            New Problem
+        </a>
+    </div>
+    <div class="overflow-x-auto">
+        <div class="table-responsive">
+            <table datatable [dtOptions]="dtOptions" class="w-full border-4" style="width: 100% !important;">
+            </table>
+        </div>
+    </div>
+</div>
+
+<app-new-problem [showModal]="showModal" (close)="closeModal()"></app-new-problem>

@@ -1,0 +1,26 @@
+<section *ngIf="showmodal" class="fixed flex bg-slate-900 top-0 left-0 h-screen w-full z-[99999999] bg-opacity-70" (click)="this.onClose.emit()">
+    <svg (click)="this.closeaddRequirements()" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="cursor-pointer w-10 h-10 absolute top-5 right-5 text-white">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+      </svg>
+      <div class="m-auto p-6 w-[70%] md:w-[70%] bg-white rounded-lg overflow-y-auto h-[800px]" (click)="$event.stopPropagation()">
+        <div class="text-center">
+            <h1 class="text-2xl font-bold text-slate-800"><i class="fa-solid fa-tags"></i> Enter Requirements</h1>
+            <p class="text-lg text-slate-700 mb-4">Please specify the technical stack, domain, and skills you are looking for:</p>
+            <tag-input [(ngModel)]='requirements' [placeholder]="'Enter requirements'"></tag-input>
+            <p *ngIf="showErrorMessage" class="text-red-500">Requirements are mandatory. Please press Enter after typing each requirement</p>
+            <button class="mt-4 px-6 py-2 bg-sky-50 text-sky-600 rounded-md transform transition-transform duration-300 hover:scale-105" (click)="validateAndSubmit()">
+                <i class="fa-solid fa-check"></i> Ok
+            </button>    
+            
+            
+            <div *ngIf="isLoading" class="mt-5">
+                <p class="text-center mb-8">Submitting <code class="bg-white p-2 rounded-lg">Your Query...</code></p>
+                <div class='w-full'>
+                  <div class='h-1.5 w-full bg-sky-100 overflow-hidden'>
+                    <div class='progress w-full h-full bg-sky-500 left-right'></div>
+                  </div>
+                </div>
+              </div>
+        </div>
+    </div>
+</section>
