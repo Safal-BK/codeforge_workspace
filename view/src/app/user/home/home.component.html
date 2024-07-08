@@ -1,0 +1,49 @@
+<app-nav></app-nav>
+
+<div class="mt-16">
+  <button (click)="newsession()">New session</button>
+  <button (click)="createrandomsession()">Random session</button>
+
+  <table datatable [dtTrigger]="dtTrigger"  class="row-border hover " style="width: 100%;">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Token</th>
+        <th>Action</th>
+  
+      </tr>
+    </thead>
+    <tbody>
+        @if (data) {
+            @for (item of data; track $index) {
+                <tr>
+                    <td>{{item.name}}</td>
+                    <td>{{item.email}}</td>
+                    <td>
+                      <p> {{item.token}} </p>
+                    </td>
+                    <td>
+                      <button [routerLink]="['codeeditor',item.id]" class="bg-blue-200 px-1 py-2 rounded-md mx-1" >open
+                      </button>
+                      <button (click)="deletesession(item.id)" class="bg-blue-200 px-1 py-2 rounded-md" >delete
+                      </button>
+                    </td>
+                  </tr>
+                }
+        }@else {
+           <tr>
+            <td> no data</td>
+            <td> no data</td>
+
+            <td> no data</td>
+
+            <td> no data</td>
+
+           </tr> 
+        }
+      
+    </tbody>
+  </table>
+</div>
+

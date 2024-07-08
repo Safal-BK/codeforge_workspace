@@ -1,0 +1,60 @@
+<div class="main">
+    <div class="column column_left">
+        <nav class="navbar_right">
+            <!-- <button class="notes-button">Notes</button> -->
+            <span id="notes_button" class="custom-button">Notes</span>
+            <button id="shrebutton" type="button" class="custom-button" onclick="copysharelink()">Share URL</button>
+            <input id="sessionnumber" type="text" placeholder="session id" hidden>
+            <!-- <button onclick="myFunction()">ok</button> -->
+            <!-- <span id="output_button" class="custom-button">Output</span> -->
+        </nav>
+        <div class="content">
+            <div id="noteactive">
+                <textarea [(ngModel)]="notes" id="problemStatement" class="note_area"
+                    placeholder="You can use this area to give a problem / add notes, it is a collaborative environment">{{notes}}</textarea>
+            </div>
+            <div id="outputactive">
+            </div>
+            <!-- Content for the second column -->
+
+        </div>
+    </div>
+    <div class="column">
+        <nav class="navbar">
+            <button id="saveButton" (click)="savesession()" class="save-button assign"><i
+                    class="bi bi-floppy"></i>Save</button>
+
+            <!-- Navbar content for the first column -->
+            <p style="font-weight: bold;color: #ffffff; line-height: 1.5 rem;" id="filename">{{filename}}</p>
+            <!-- Replace the anchor tag with p element -->
+            <select class="languages" name="languages" (change)="sendmessagecontentchanged($event)" [(ngModel)]="language">
+                <option value="python" selected>python</option>
+                <option value="php">php </option>
+                <option value="java">java</option>
+                <option value="cpp">c++</option>
+                <option value="c">c</option>
+
+            </select>
+
+            <button (click)="compilecode()" class="run-button"><i class="bi bi-play"></i>Run</button>
+        </nav>
+
+
+        <div class="content">
+            <!-- Content for the first column -->
+            <div class="editor_field" #editor>
+                <ngx-monaco-editor style="height: 100%" [options]="editorOptions"
+                    [(ngModel)]="code"></ngx-monaco-editor>
+
+            </div>
+        </div>
+        <div #ouput_container class="output">
+            <button (click)="toggleoutputcontainer(ouput_container,editor)" class="more">console <i
+                    class={{consolebuttonclass}}> </i></button>
+            <p class="ouput_headline">Output</p>
+            <p class="output_result">{{output}}</p>
+
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,168 @@
+<!--Mobile Screen Navigation Bar -->
+<nav class="absolute w-full top-0 left-0 h-screen z-[99999999] {{isSidebarShowing?'flex':'hidden'}}">
+  <div class="bg-gray-700 w-full md:max-w-sm shadow-2xl">
+    <div class="flex justify-end p-5">
+      <svg (click)="this.closeSideBar()" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+        stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-white">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+      </svg>
+    </div>
+    <div>
+      <div class="mt-3"><app-user></app-user></div>
+      <div class="mt-3"><app-email></app-email></div>
+      <div class="mt-6">
+        <app-mobile-menu></app-mobile-menu>
+      </div>
+    </div>
+  </div>
+  <div (click)="this.closeSideBar()" class="bg-gray-900 hidden md:block md:w-full opacity-60">
+  </div>
+</nav>
+<!-- Navigation Bar -->
+<nav class="bg-gray-700 lg:px-20 px-10 fixed top-0 w-full z-[999999] ">
+  <div class="flex justify-between text-white p-2 items-center">
+    <!-- Left set of icons -->
+
+    <div class="flex items-center">
+      <!-- logo -->
+
+      <div class="flex items-center justify-between">
+        <a href="#" class="">
+          <img src="../../assets/Skillsense logomark 1.png" alt="logo" class="h-10 w-auto" />
+        </a>
+        
+      </div>
+      <app-menu class="hidden lg:block"></app-menu>
+    </div>
+
+    <!-- Right Set Of Icons  -->
+
+    <div class="flex">
+      <!-- Candidate Search  -->
+
+      <div *ngIf="isSearchOpen" class="relative search-container">
+        <form class="search-box ">
+          <input type="text" class="input lg:w-96 w-72" name="" placeholder="Search for candidates..." />
+          <ul>
+            <li class="btn" (click)="toggleSearch($event)"></li>
+          </ul>
+        </form>
+      </div>
+
+
+      <!-- hamburger in mobile view-->
+      <div class="lg:hidden mt-1">
+        <svg (click)="this.openSideBar()" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+          stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+      </div>
+
+      <!-- Inbox  -->
+    
+      <!-- Hamburger Menu  -->
+    
+
+      <!-- User Menu Icon  -->
+      <div class="relative hidden lg:inline-block text-left mx-3" (click)="toggleDropdownUser($event)">
+        <div>
+          <ul>
+            <li class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded" id="user-menu-button"
+              aria-expanded="true" aria-haspopup="true">
+              <a href="#"><i class="fa-regular fa-user"></i></a>
+            </li>
+          </ul>
+        </div>
+        <!-- Primary Drop Down  -->
+        <div *ngIf="isDropdownOpenUser"
+          class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+          role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+          <!-- User Section  -->
+          <div class="py-2 flex" role="none">
+            <div>
+              <img
+                src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
+                alt="user" height="70px" width="70px" />
+            </div>
+            <div>
+              <div>
+                <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
+                  id="menu-item-1">Ameen A Rasheed</a>
+              </div>
+              <div>
+                <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
+                  id="menu-item-1">Bolgatty</a>
+              </div>
+            </div>
+          </div>
+          <!-- Rest of the dropdown Section  -->
+          <div class="py-1" role="none">
+            <a [routerLink]="['settings','user-profile']" class="text-gray-700 block px-4 py-2 text-sm hover:bg-yellow-100" role="menuitem" tabindex="-1"
+              id="menu-item-2">Settings</a>
+
+            <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-yellow-100" role="menuitem" tabindex="-1"
+              id="menu-item-2">Help</a>
+
+            <!-- Secondary Drop down HElp Section 
+            <div class="relative inline-block text-left" (click)="toggleDropdownHelp()">
+              Help line 
+              <div class="flex">
+                Help Text 
+                <div>
+                  <ul>
+                    <li class="text-gray-700 block px-4 py-2 text-sm hover:bg-yellow-100" id="menu-button"
+                      aria-expanded="true" aria-haspopup="true">
+                      Help
+                    </li>
+                  </ul>
+                </div>
+
+                Help Down Arrow 
+                <div class="pl-24">
+                  <svg class="-mr-1 h-5 w-5 text-gray-400 hover:bg-yellow-100" viewBox="0 0 20 20" fill="currentColor"
+                    aria-hidden="true">
+                    <path fill-rule="evenodd"
+                      d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                      clip-rule="evenodd" />
+                  </svg>
+                </div>
+              </div>
+
+              Secondary drop down Arrow Items 
+
+              <div *ngIf="isDropdownOpenHelp"
+                class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                <div class="py-1" role="none">
+                  <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-yellow-200" role="menuitem"
+                    tabindex="-1" id="menu-item-0">Back</a>
+                </div>
+                <div class="py-1" role="none">
+                  <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-yellow-100" role="menuitem"
+                    tabindex="-1" id="menu-item-1">Ask a question</a>
+                  <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-yellow-100" role="menuitem"
+                    tabindex="-1" id="menu-item-2">Guides & resources</a>
+                  <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-yellow-100" role="menuitem"
+                    tabindex="-1" id="menu-item-3">Workable Academy</a>
+                  <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-yellow-100" role="menuitem"
+                    tabindex="-1" id="menu-item-4">What"s new</a>
+                </div>
+                <div class="py-1" role="none">
+                  <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-yellow-100" role="menuitem"
+                    tabindex="-1" id="menu-item-5">System status</a>
+                </div>
+              </div>
+            </div> -->
+
+            <!-- Rest of Primary dropdown Items  -->
+
+            <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-yellow-100" role="menuitem" tabindex="-1"
+              id="menu-item-4">Add A Company</a>
+            <a [routerLink]="['logout']" class="text-gray-700 block px-4 py-2 text-sm hover:bg-yellow-100" role="menuitem" tabindex="-1"
+              id="menu-item-5">Log Out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

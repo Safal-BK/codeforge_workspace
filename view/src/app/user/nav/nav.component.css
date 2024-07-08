@@ -1,0 +1,55 @@
+.search-container {
+    position: relative;
+    opacity: 0; /* Initially hide the container */
+    animation: fadeIn 0.3s forwards; /* Apply fadeIn animation */
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px); /* Optional: Slide down effect */
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .search-box {
+    position: relative;
+    background-color: #1f2937;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 5px;
+  }
+  
+  .input {
+    width: 300px;
+    height: 5px;
+    padding: 8px;
+    border: none;
+    outline: none;
+    background-color: #1f2937;
+  }
+  
+  .btn {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    background: url('../../../assets/cross.png') no-repeat center;
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+  }
+  
+
+  .secondnav{
+    margin-top: 55px;
+  }
+
+
+
+  

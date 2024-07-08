@@ -1,0 +1,41 @@
+
+<app-nav></app-nav>
+
+<div class="mt-20 ">
+  <button (click)="newproblem()">new problem</button>
+
+  <table datatable  class="row-border hover " style="width: 100%;">
+      <thead>
+        <tr>
+          <th>problem</th>
+     
+          <th>Action</th>
+    
+        </tr>
+      </thead>
+      <tbody>
+          @if (data) {
+              @for (item of data; track $index) {
+                  <tr>
+                      <td style="text-align: left;">{{item.content}}</td>
+        
+                      <td>
+                        <button class="bg-blue-200 px-1 py-2 rounded-md mx-1" (click)="openproblem(item.id)">open
+                        </button>
+                        <button class="bg-blue-200 px-1 py-2 rounded-md" (click)="deleteproblem(item.id)" >delete
+                        </button>
+                      </td>
+                    </tr>
+                  }
+          }@else {
+             <tr>
+              <td> no data</td>
+              <td> no data</td>
+  
+  
+             </tr> 
+          }
+        
+      </tbody>
+    </table>
+</div>

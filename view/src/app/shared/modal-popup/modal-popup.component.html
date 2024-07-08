@@ -1,0 +1,39 @@
+<section *ngIf="showmodal" class="flex bg-slate-900 absolute top-0 left-0 h-screen w-full z-50 bg-opacity-70" (click)="this.onClose.emit()">
+    <svg (click)="this.onClose.emit()" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="cursor-pointer w-10 h-10 absolute top-20 right-60 text-white">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+      </svg>
+      <div class="m-auto p-6 w-[90%] md:w-[70%] bg-white rounded-lg overflow-y-auto h-[800px]" (click)="$event.stopPropagation()">
+        <div class="prose mx-auto max-w-3xl prose-headings:text-slate-800 prose-h1:text-green-900">
+            <h1 class="text-center">Wipro</h1>
+            <h2 class="prose-2xl text-center">Java Developer</h2>
+            <p class="text-center"><span class="font-bold text-slate-600">On-site - </span>Noida, Uttarpradesh, India - Full time - 12345</p>
+            <h2>Description</h2>
+            <p>As a Java Developer, you will collaborate closely with cross-functional teams to gather project requirements and translate them into technical specifications. Your primary responsibility will be to design, develop, and maintain high-quality Java-based applications, ensuring their performance, reliability, and scalability. You will write clean, efficient code following best practices and conduct thorough testing to identify and fix any bugs or issues. Additionally, you will participate in code reviews to provide feedback and improve code quality. Staying updated with the latest Java technologies and trends, you will apply them to enhance our development process. Your troubleshooting skills will be essential in resolving any issues that arise, ensuring smooth project delivery. Furthermore, you will document technical specifications, system architecture, and code changes for future reference and knowledge sharing.</p>
+            <h2>Responsibilities</h2>
+            <p>* Collaborate with cross-functional teams to understand project requirements and translate them into technical specifications.</p>
+            <p>* Design, develop, and maintain Java-based applications, ensuring their performance, reliability, and scalability.</p>
+            <p>* Write clean, well-designed, and efficient code following best practices and coding standards.</p>
+            <p>* Conduct thorough testing to identify and fix bugs, ensuring the quality and stability of the software.</p>
+
+            <h2>Requirements</h2>
+            <p>* Bachelor's degree in Computer Science, Engineering, or related field.</p>
+            <p>* Proven experience as a Java Developer, with a strong understanding of Java programming language and its ecosystem.</p>
+            <p>* Proficiency in Java frameworks such as Spring, Hibernate, or similar.</p>
+            <p>* Experience with database technologies (SQL, MySQL, PostgreSQL, etc.) and ORM frameworks.</p>
+
+
+            <h2>Key Skills</h2>
+            <p class="flex flex-wrap">
+                <span class="bg-green-300 rounded-3xl border border-green-500 px-2 py-1 my-2 mr-2">Java</span>
+                <span class="bg-red-300 rounded-3xl border border-red-500 px-2 py-1 my-2 mr-2">OOP</span>
+                <span class="bg-green-300 rounded-3xl border border-green-500 px-2 py-1 my-2 mr-2">Frameworks</span>
+                <span class="bg-red-300 rounded-3xl border border-red-500 px-2 py-1 my-2 mr-2">Problem-Solving</span>
+                <span class="bg-green-300 rounded-3xl border border-green-500 px-2 py-1 my-2 mr-2">Git</span>
+                <span class="bg-red-300 rounded-3xl border border-red-500 px-2 py-1 my-2 mr-2">Debugging</span>
+                <span class="bg-green-300 rounded-3xl border border-green-500 px-2 py-1 my-2 mr-2">Communication</span>
+                <span class="bg-red-300 rounded-3xl border border-red-500 px-2 py-1 my-2 mr-2">Collaboration</span>
+                <span class="bg-green-300 rounded-3xl border border-green-500 px-2 py-1 my-2 mr-2">Optimization</span>
+            </p>
+        </div>
+    </div> 
+</section>
